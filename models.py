@@ -8,11 +8,14 @@ class Goods(Base):
     __tablename__ = "goods"
 
     id = Column(Integer, primary_key=True)
-    appellation = Column(String)
+    appellation_good = Column(String)
     description = Column(String)
+    category_id = Column(Integer, ForeignKey("category.id"))
+    owner_id = Column(Integer, ForeignKey("owner.id"))
 
     # owners = relationship("Owner", back_populates="owner")
-    # category = relationship("ProductCategory", back_populates="goods")
+    category = relationship("Category", back_populates="good")
+    owner = relationship("Owner", back_populates="good")
 
 
 class Owner(Base):
@@ -25,19 +28,13 @@ class Owner(Base):
     email = Column(String, unique=True)
     # goods_id = Column(Integer, ForeignKey("goods.id"))
 
-    # owner = relationship("Goods", back_populates="owners")
+    good = relationship("Goods", back_populates="owner")
 
 
 class Category(Base):
     __tablename__ = "category"
 
     id = Column(Integer, primary_key=True)
-    appellation = Column(String, unique=True)
+    appellation_category = Column(String, unique=True)
 
-
-# class ProductAndCategory(Base):
-#     __tablename__ = "productCategory"
-#
-#     id = Column(Integer, primary_key=True)
-#     appellation = Column(String, unique=True)
-
+    good = relationship("Goods", back_populates="category")
