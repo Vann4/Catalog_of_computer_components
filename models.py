@@ -11,14 +11,33 @@ class Goods(Base):
     appellation = Column(String)
     description = Column(String)
 
-    category = relationship("ProductCategory", back_populates="goods")
+    # owners = relationship("Owner", back_populates="owner")
+    # category = relationship("ProductCategory", back_populates="goods")
 
 
-class ProductCategory(Base):
-    __tablename__ = "productCategory"
+class Owner(Base):
+    __tablename__ = "owner"
+
+    id = Column(Integer, primary_key=True)
+    surname = Column(String)
+    name = Column(String)
+    patronymic = Column(String)
+    email = Column(String, unique=True)
+    # goods_id = Column(Integer, ForeignKey("goods.id"))
+
+    # owner = relationship("Goods", back_populates="owners")
+
+
+class Category(Base):
+    __tablename__ = "category"
 
     id = Column(Integer, primary_key=True)
     appellation = Column(String, unique=True)
-    goods_id = Column(Integer, ForeignKey("goods.id"))
 
-    goods = relationship("Goods", back_populates="category")
+
+# class ProductAndCategory(Base):
+#     __tablename__ = "productCategory"
+#
+#     id = Column(Integer, primary_key=True)
+#     appellation = Column(String, unique=True)
+
