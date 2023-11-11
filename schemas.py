@@ -1,71 +1,33 @@
-# from pydantic import BaseModel
-#
-#
-# class TypesOfGoodsBase(BaseModel):
-#     title: str
-#     description: str | None = None
-#
-#
-# class TypesOfGoodsCreate(TypesOfGoodsBase):
-#     pass
-#
-#
-# class TypesOfGoods(TypesOfGoodsBase):
-#     id: int
-#     appellation: str
-#
-#     class Config:
-#         from_attributes = True
-#
-#
-# class GoodsBase(BaseModel):
-#     appellation: str
-#
-#
-# class GoodsCreate(GoodsBase):
-#     appellation: str
-#
-#
-# class Goods(GoodsBase):
-#     id: int
-#     items: list[TypesOfGoods] = []
-#
-#     class Config:
-#         from_attributes = True
-
-
 from pydantic import BaseModel
 
 
-class ItemBase(BaseModel):
-    title: str
-    description: str | None = None
+class ProductCategoryBase(BaseModel):
+    appellation: str
+    goods_id: int
 
 
-class ItemCreate(ItemBase):
+class ProductCategoryCreate(ProductCategoryBase):
     pass
 
 
-class Item(ItemBase):
+class ProductCategory(ProductCategoryBase):
     id: int
-    owner_id: int
 
     class Config:
         from_attributes = True
 
 
-class UserBase(BaseModel):
-    email: str
+class GoodsBase(BaseModel):
+    appellation: str
 
 
-class UserCreate(UserBase):
-    password: str
+class GoodsCreate(GoodsBase):
+    description: str
 
 
-class User(UserBase):
+class Goods(GoodsBase):
     id: int
-    is_active: bool
-    items: list[Item] = []
+    category: list[ProductCategory] = []
 
     class Config:
         from_attributes = True
