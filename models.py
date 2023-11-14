@@ -13,9 +13,9 @@ class Goods(Base):
     category_id = Column(Integer, ForeignKey("category.id"))
     owner_id = Column(Integer, ForeignKey("owner.id"))
 
-    # owners = relationship("Owner", back_populates="owner")
     category = relationship("Category", back_populates="good")
-    owner = relationship("Owner", back_populates="good")
+    owner = relationship("Owner", back_populates="owners")
+    characteristic = relationship("ProductCharacteristic", back_populates="characteristics")
 
 
 class Owner(Base):
@@ -28,7 +28,7 @@ class Owner(Base):
     email = Column(String, unique=True)
     # goods_id = Column(Integer, ForeignKey("goods.id"))
 
-    good = relationship("Goods", back_populates="owner")
+    owners = relationship("Goods", back_populates="owner")
 
 
 class Category(Base):
@@ -38,3 +38,14 @@ class Category(Base):
     appellation_category = Column(String, unique=True)
 
     good = relationship("Goods", back_populates="category")
+
+
+class ProductCharacteristic(Base):
+    __tablename__ = "product_characteristics"
+
+    id = Column(Integer, primary_key=True)
+    goods_id = Column(Integer, ForeignKey("goods.id"))
+    characteristic_name = Column(String)
+    characteristic = Column(String)
+
+    characteristics = relationship("Goods", back_populates="characteristic")
