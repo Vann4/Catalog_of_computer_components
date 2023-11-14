@@ -22,6 +22,27 @@ class Owner(OwnerBase):
         from_attributes = True
 
 
+class ProductCharacteristicBase(BaseModel):
+    characteristic_name: str
+    characteristic: str
+
+
+class ProductCharacteristicCreate(ProductCharacteristicBase):
+    goods_id: int
+    characteristic_name: str
+    characteristic: str
+
+
+class ProductCharacteristic(ProductCharacteristicBase):
+    id: int
+    goods_id: int
+    characteristic_name: str
+    characteristic: str
+
+    class Config:
+        from_attributes = True
+
+
 class GoodsBase(BaseModel):
     appellation_good: str
 
@@ -37,6 +58,7 @@ class Goods(GoodsBase):
     id: int
     category_id: int
     owner_id: int
+    characteristic: list[ProductCharacteristic] = []
 
     class Config:
         from_attributes = True
