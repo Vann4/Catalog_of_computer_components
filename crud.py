@@ -45,3 +45,15 @@ def create_owner(db: Session, owner: schemas.OwnerCreate):
     db.commit()
     db.refresh(db_owner)
     return db_owner
+
+
+def get_product_characteristic(db: Session):
+    return db.query(models.ProductCharacteristic).all()
+
+
+def create_product_characteristic(db: Session, product_characteristic: schemas.ProductCharacteristicCreate):
+    db_product_characteristic = models.ProductCharacteristic(goods_id=product_characteristic.goods_id, characteristic_name=product_characteristic.characteristic_name, characteristic=product_characteristic.characteristic)
+    db.add(db_product_characteristic)
+    db.commit()
+    db.refresh(db_product_characteristic)
+    return db_product_characteristic
