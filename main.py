@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
+from starlette.middleware.cors import CORSMiddleware
 
 import crud, models, schemas
 from database import SessionLocal, engine
@@ -7,6 +8,16 @@ from database import SessionLocal, engine
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # Dependency
@@ -19,29 +30,29 @@ def get_db():
 
 
 @app.get("/goods/", response_model=list[schemas.Goods])
-def get_goods(db: Session = Depends(get_db)):
+async def get_goods(db: Session = Depends(get_db)):
     goods = crud.get_goods(db)
     return goods
 
 
 @app.post("/good/", response_model=schemas.Goods)
-def create_good(good: schemas.GoodsCreate, db: Session = Depends(get_db)):
+async def create_good(good: schemas.GoodsCreate, db: Session = Depends(get_db)):
     return crud.create_good(good=good, db=db)
 
 
 @app.get("/product_characteristic/", response_model=list[schemas.ProductCharacteristic])
-def get_product_characteristic(db: Session = Depends(get_db)):
+async def get_product_characteristic(db: Session = Depends(get_db)):
     product_characteristic = crud.get_product_characteristic(db)
     return product_characteristic
 
 
 @app.post("/product_characteristic/", response_model=schemas.ProductCharacteristic)
-def create_product_characteristic(product_characteristic: schemas.ProductCharacteristicCreate, db: Session = Depends(get_db)):
+async def create_product_characteristic(product_characteristic: schemas.ProductCharacteristicCreate, db: Session = Depends(get_db)):
     return crud.create_product_characteristic(db=db, product_characteristic=product_characteristic)
 
 
 @app.get("/category/", response_model=list[schemas.Category])
-def get_category(db: Session = Depends(get_db)):
+async def get_category(db: Session = Depends(get_db)):
     category = crud.get_category(db)
     return category
 
@@ -55,13 +66,13 @@ def get_category(db: Session = Depends(get_db)):
 
 
 @app.get("/owners/", response_model=list[schemas.Owner])
-def get_owners(db: Session = Depends(get_db)):
+async def get_owners(db: Session = Depends(get_db)):
     owners = crud.get_owners(db)
     return owners
 
 
 @app.post("/owner/", response_model=schemas.Owner)
-def create_owner(owner: schemas.OwnerCreate, db: Session = Depends(get_db)):
+async def create_owner(owner: schemas.OwnerCreate, db: Session = Depends(get_db)):
     db_owner = crud.get_owner_by_email(db, email=owner.email)
     if db_owner:
         raise HTTPException(status_code=400, detail="Человек с такой почтой уже зарегистрирован")
