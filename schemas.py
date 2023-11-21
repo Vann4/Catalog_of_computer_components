@@ -45,6 +45,7 @@ class ProductCharacteristic(ProductCharacteristicBase):
 
 class GoodsBase(BaseModel):
     appellation_good: str
+    description: str
 
 
 class GoodsCreate(GoodsBase):
