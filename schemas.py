@@ -1,27 +1,6 @@
 from pydantic import BaseModel
 
 
-class OwnerBase(BaseModel):
-    surname: str
-    name: str
-
-
-class OwnerCreate(OwnerBase):
-    surname: str
-    name: str
-    patronymic: str
-    email: str
-
-
-class Owner(OwnerBase):
-    patronymic: str
-    email: str
-    id: int
-
-    class Config:
-        from_attributes = True
-
-
 class ProductCharacteristicBase(BaseModel):
     characteristic_name: str
     characteristic: str
@@ -77,6 +56,28 @@ class Category(CategoryBase):
     id: int
     appellation_category: str
     good: list[Goods] = []
+
+    class Config:
+        from_attributes = True
+
+
+class OwnerBase(BaseModel):
+    surname: str
+    name: str
+
+
+class OwnerCreate(OwnerBase):
+    surname: str
+    name: str
+    patronymic: str
+    email: str
+
+
+class Owner(OwnerBase):
+    patronymic: str
+    email: str
+    id: int
+    owners: list[Goods]
 
     class Config:
         from_attributes = True
