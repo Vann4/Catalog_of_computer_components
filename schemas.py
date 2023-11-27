@@ -49,7 +49,7 @@ class CategoryBase(BaseModel):
 
 
 class CategoryCreate(CategoryBase):
-    pass
+    appellation_category: str
 
 
 class Category(CategoryBase):
