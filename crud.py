@@ -19,16 +19,16 @@ def get_category(db: Session):
     return db.query(models.Category).all()
 
 
-# def get_category_by_appellation(db: Session, appellation: str):
-#     return db.query(models.Category).filter(models.Category.appellation == appellation).first()
+def get_category_by_appellation(db: Session, appellation_category: str):
+    return db.query(models.Category).filter(models.Category.appellation_category == appellation_category).first()
 
 
-# def create_category(db: Session, category: schemas.CategoryCreate):
-#     db_category = models.Category(appellation=category.appellation)
-#     db.add(db_category)
-#     db.commit()
-#     db.refresh(db_category)
-#     return db_category
+def create_category(db: Session, appellation_category: schemas.CategoryCreate):
+    db_category = models.Category(appellation_category=appellation_category.appellation_category)
+    db.add(db_category)
+    db.commit()
+    db.refresh(db_category)
+    return db_category
 
 
 def get_owners(db: Session):
