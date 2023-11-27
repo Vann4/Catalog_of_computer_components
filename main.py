@@ -57,12 +57,12 @@ async def get_category(db: Session = Depends(get_db)):
     return category
 
 
-# @app.post("/category/", response_model=schemas.Category)
-# def create_owner(category: schemas.CategoryCreate, db: Session = Depends(get_db)):
-#     db_category = crud.get_category_by_appellation(db, appellation=category.appellation)
-#     if db_category:
-#         raise HTTPException(status_code=400, detail="Такая категория уже существует")
-#     return crud.create_category(db=db, category=category)
+@app.post("/create_category/", response_model=schemas.Category)
+def create_owner(appellation_category: schemas.CategoryCreate, db: Session = Depends(get_db)):
+    db_category = crud.get_category_by_appellation(db, appellation_category=appellation_category.appellation_category)
+    if db_category:
+        raise HTTPException(status_code=400, detail="Такая категория уже существует")
+    return crud.create_category(db=db, appellation_category=appellation_category)
 
 
 @app.get("/owners/", response_model=list[schemas.Owner])
